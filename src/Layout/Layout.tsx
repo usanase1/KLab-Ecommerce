@@ -1,11 +1,9 @@
 import Header from "../components/Header"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
-//import React from "react";
+// import PreFooter from "../components/PreFooter"
+import CategoryMenu from "../components/CategoryMenu"
 import { Outlet } from "react-router-dom"
-//import { Route } from "react-router-dom";
-//import { Routes } from "react-router-dom";
-//import { BrowserRouter } from "react-router-dom";
 
 function Layout() {
   return (
@@ -13,10 +11,14 @@ function Layout() {
       <Header />
       <Navbar />
 
-      <>
-        <Outlet />
-      </>
+      <div className="flex flex-1">
+        <CategoryMenu />
+        <main className="flex-1">
+          <Outlet />
+        </main>
+      </div>
 
+      {/* <PreFooter /> */}
       <Footer />
     </div>
   )
