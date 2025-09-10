@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
-const categories = ["Electronics", "Clothing", "Home", "Sports", "Books"];
+const categories = ["Electronics", "Clothing", "Home", "Sports", "Books"]
 
 export default function CategoryMenu() {
   return (
@@ -9,15 +9,12 @@ export default function CategoryMenu() {
       <ul className="space-y-2">
         {categories.map((cat) => (
           <li key={cat}>
-            <Link
-              to={`/category/${cat.toLowerCase()}`}
-              className="block hover:text-yellow-600"
-            >
+            <Link to={`/category/${cat.toLowerCase()}`} className="block hover:text-yellow-600">
               {cat}
             </Link>
           </li>
         ))}
       </ul>
     </aside>
-  );
+  )
 }

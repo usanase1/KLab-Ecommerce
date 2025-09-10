@@ -1,19 +1,21 @@
-import { useState } from "react";
-import ProductCard from "../components/ProductCard";
+"use client"
+
+import { useState } from "react"
+import ProductCard from "../components/ProductCard"
 
 type Product = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-};
+  id: number
+  name: string
+  price: number
+  image: string
+}
 
-const products: Product[] =  [
-   {
+const products: Product[] = [
+  {
     id: 1,
     name: "Smartphone",
     price: 499,
-    image: "/images/Apple-AirPods.jpg", 
+    image: "/images/Apple-AirPods.jpg",
   },
   {
     id: 2,
@@ -81,14 +83,15 @@ const products: Product[] =  [
     price: 199,
     image: "/images/wireless-speaker.jpg",
   },
-]; 
+]
 
-export default function ProductsPage() {
-  const [cart, setCart] = useState<Product[]>([]);
+export default function Products() {
+  const [cart, setCart] = useState<Product[]>([])
 
-  const handleAddToCart = (product: Product) => {
-    setCart((prevCart) => [...prevCart, product]);
-  };
+  const addToCart = (product: Product) => {
+    setCart((prevCart) => [...prevCart, product])
+    console.log("Added to cart:", product)
+  }
 
   return (
     <div className="p-6">
@@ -96,11 +99,7 @@ export default function ProductsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard 
-            key={product.id} 
-            product={product} 
-            onAddToCart={handleAddToCart} 
-          />
+          <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
         ))}
       </div>
 
@@ -112,11 +111,13 @@ export default function ProductsPage() {
         ) : (
           <ul>
             {cart.map((item, index) => (
-              <li key={index}>{item.name} - ${item.price}</li>
+              <li key={index}>
+                {item.name} - ${item.price}
+              </li>
             ))}
           </ul>
         )}
       </div>
     </div>
-  );
+  )
 }

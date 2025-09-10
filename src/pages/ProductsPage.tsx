@@ -1,19 +1,19 @@
 // src/pages/Products.tsx
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/ProductCard"
 
 type Product = {
-  id: number;
-  name: string;
-  price: number;
-  image: string;
-};
+  id: number
+  name: string
+  price: number
+  image: string
+}
 
 const products: Product[] = [
-   {
+  {
     id: 1,
     name: "Smartphone",
     price: 499,
-    image: "/images/Apple-AirPods.jpg", 
+    image: "/images/Apple-AirPods.jpg",
   },
   {
     id: 2,
@@ -81,7 +81,7 @@ const products: Product[] = [
     price: 199,
     image: "/images/wireless-speaker.jpg",
   },
-];
+]
 
 export default function ProductsPage() {
   return (
@@ -90,11 +90,16 @@ export default function ProductsPage() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <ProductCard key={product.id} product={product} onAddToCart={function (): void {
-            throw new Error("Function not implemented.");
-          } } />
+          <ProductCard
+            key={product.id}
+            product={product}
+            onAddToCart={(product: Product): void => {
+              console.log("Added to cart:", product)
+              // TODO: Implement actual cart functionality
+            }}
+          />
         ))}
       </div>
     </div>
-  );
+  )
 }

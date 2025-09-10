@@ -1,63 +1,42 @@
-import { NavLink } from "react-router-dom";
-
-const linkClass =
-  "px-3 py-2 rounded hover:bg-yellow-50 hover:text-yellow-700";
+import { Link } from "react-router-dom"
 
 export default function Navbar() {
   return (
-    <nav className="bg-white border-b">
-      <div className="container mx-auto max-w-7xl flex gap-4 px-4 py-2">
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            isActive
-              ? `${linkClass} bg-yellow-100 text-yellow-800`
-              : linkClass
-          }
-        >
-          Home
-        </NavLink>
-        <NavLink
-          to="/category/electronics"
-          className={({ isActive }) =>
-            isActive
-              ? `${linkClass} bg-yellow-100 text-yellow-800`
-              : linkClass
-          }
-        >
-          Electronics
-        </NavLink>
-        <NavLink
-          to="/category/clothing"
-          className={({ isActive }) =>
-            isActive
-              ? `${linkClass} bg-yellow-100 text-yellow-800`
-              : linkClass
-          }
-        >
-          Clothing
-        </NavLink>
-        <NavLink
-          to="/category/books"
-          className={({ isActive }) =>
-            isActive
-              ? `${linkClass} bg-yellow-100 text-yellow-800`
-              : linkClass
-          }
-        >
-          Books
-        </NavLink>
-        <NavLink
-          to="/cart"
-          className={({ isActive }) =>
-            isActive
-              ? `${linkClass} bg-yellow-100 text-yellow-800`
-              : linkClass
-          }
-        >
-          Cart
-        </NavLink>
+    <nav className="bg-white border-b border-gray-200 py-3">
+      <div className="max-w-7xl mx-auto px-4">
+        <ul className="flex items-center space-x-8">
+          <li>
+            <Link to="/" className="text-gray-700 hover:text-yellow-600 font-medium">
+              HOME
+            </Link>
+          </li>
+          <li>
+            <Link to="/category/shop" className="text-gray-700 hover:text-yellow-600 font-medium">
+              SHOP
+            </Link>
+          </li>
+          <li>
+            <Link to="/category/pages" className="text-gray-700 hover:text-yellow-600 font-medium">
+              PAGES
+            </Link>
+          </li>
+          <li>
+            <Link to="/category/blog" className="text-gray-700 hover:text-yellow-600 font-medium">
+              BLOG
+            </Link>
+          </li>
+          <li>
+            <Link to="/category/elements" className="text-gray-700 hover:text-yellow-600 font-medium">
+              ELEMENTS
+            </Link>
+          </li>
+          <li>
+            <Link to="/category/buy-now" className="text-gray-700 hover:text-yellow-600 font-medium">
+              BUY NOW
+            </Link>
+          </li>
+        </ul>
       </div>
     </nav>
-  );
+  )
 }
