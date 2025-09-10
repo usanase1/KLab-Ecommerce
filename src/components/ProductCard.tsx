@@ -1,5 +1,7 @@
 "use client"
 
+import { Heart } from "lucide-react"
+
 interface ProductCardProps {
   product: {
     id: number
@@ -46,7 +48,9 @@ export default function ProductCard({
         {isOnSale && (
           <span className="absolute top-2 left-2 bg-green-500 text-white text-xs px-2 py-1 rounded">SALE</span>
         )}
-        <button className="absolute top-2 right-2 text-gray-400 hover:text-red-500">❤️</button>
+        <button className="absolute top-2 right-2 text-gray-400 hover:text-red-500">
+          <Heart className="w-4 h-4" />
+        </button>
         <img src={productImage || "/placeholder.svg"} alt={productName} className="w-full h-48 object-cover" />
       </div>
 
