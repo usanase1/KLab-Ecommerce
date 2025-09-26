@@ -1,24 +1,58 @@
-import { Truck, RotateCcw, CreditCard, MessageCircle } from "lucide-react"
-
 const PreFooter = () => {
   const serviceFeatures = [
     {
-      icon: <Truck className="w-8 h-8 text-yellow-500" />,
+      icon: (
+        <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+          />
+        </svg>
+      ),
       title: "FREE SHIPPING",
       description: "On All Orders Over $99",
     },
     {
-      icon: <RotateCcw className="w-8 h-8 text-yellow-500" />,
+      icon: (
+        <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
+      ),
       title: "EASY RETURNS",
       description: "30 Days Return Policy",
     },
     {
-      icon: <CreditCard className="w-8 h-8 text-yellow-500" />,
+      icon: (
+        <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
+          />
+        </svg>
+      ),
       title: "SECURE PAYMENT",
       description: "100% Secure Payment",
     },
     {
-      icon: <MessageCircle className="w-8 h-8 text-yellow-500" />,
+      icon: (
+        <svg className="w-8 h-8 text-yellow-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+          />
+        </svg>
+      ),
       title: "24/7 SUPPORT",
       description: "Dedicated Support",
     },
@@ -160,4 +194,3 @@ const PreFooter = () => {
 }
 
 export default PreFooter
-

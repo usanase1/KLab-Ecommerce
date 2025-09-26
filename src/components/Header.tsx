@@ -1,6 +1,11 @@
-import { User, Heart, ShoppingCart, Search, ChevronDown, X } from "lucide-react"
+import { User, Heart, ShoppingCart, Search, ChevronDown, X, LogOut } from "lucide-react"
+import { useCart } from "../context/CartContext"
+import { Link } from "react-router-dom"
+import { useAuth } from "../context/AuthContext"
 
 export default function Header() {
+  const { wishlist, getCartTotal, getCartCount } = useCart()
+  const { isAuthenticated, user } = useAuth()
   return (
     <>
       <div className="bg-black text-white py-2 px-4">
@@ -70,26 +75,53 @@ export default function Header() {
           </div>
 
           <div className="flex items-center space-x-6">
-            <div className="flex items-center space-x-2">
-              <User className="w-5 h-5" />
-              <div className="text-sm">
-                <div className="text-gray-500">HELLO,</div>
-                <div className="font-medium">SIGN IN</div>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-2">
+                <User className="w-5 h-5" />
+                <div className="text-sm">
+                  <div className="text-gray-500">HELLO,</div>
+                  <div className="font-medium truncate max-w-[140px]" title={user?.fullname}>{user?.fullname || 'User'}</div>
+                </div>
+                <Link to="/logout" className="ml-3 text-sm text-gray-700 hover:text-yellow-500 inline-flex items-center gap-1">
+                  <LogOut className="w-4 h-4" />
+                  Logout
+                </Link>
               </div>
-            </div>
-            <div className="flex items-center space-x-2 relative">
+            ) : (
+              <Link 
+                to="/login" 
+                className="flex items-center space-x-2 hover:text-yellow-500 transition-colors"
+              >
+                <User className="w-5 h-5" />
+                <div className="text-sm">
+                  <div className="text-gray-500">HELLO,</div>
+                  <div className="font-medium">SIGN IN</div>
+                </div>
+              </Link>
+            )}
+            <Link to="/wishlist" className="flex items-center space-x-2 relative hover:text-yellow-500 transition-colors">
               <Heart className="w-5 h-5" />
-              <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                0
-              </span>
-            </div>
-            <div className="flex items-center space-x-2">
-              <ShoppingCart className="w-5 h-5" />
+              <span className="text-sm">Wishlist</span>
+              {wishlist.length > 0 && (
+                <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                  {wishlist.length}
+                </span>
+              )}
+            </Link>
+            <Link to="/cart" className="flex items-center space-x-2 hover:text-yellow-500 transition-colors">
+              <div className="relative">
+                <ShoppingCart className="w-5 h-5" />
+                {getCartCount() > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-yellow-400 text-black text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                    {getCartCount()}
+                  </span>
+                )}
+              </div>
               <div className="text-sm">
                 <div className="text-gray-500">Cart</div>
-                <div className="font-medium">$0.00</div>
+                <div className="font-medium">${getCartTotal().toFixed(2)}</div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </header>

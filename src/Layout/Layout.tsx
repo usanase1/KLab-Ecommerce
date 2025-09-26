@@ -1,11 +1,14 @@
+import type { ReactNode } from "react"
 import Header from "../components/Header"
 import Navbar from "../components/Navbar"
 import Footer from "../components/Footer"
-// import PreFooter from "../components/PreFooter"
 import CategoryMenu from "../components/CategoryMenu"
-import { Outlet } from "react-router-dom"
 
-function Layout() {
+interface LayoutProps {
+  children: ReactNode
+}
+
+function Layout({ children }: LayoutProps) {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
@@ -13,12 +16,9 @@ function Layout() {
 
       <div className="flex flex-1">
         <CategoryMenu />
-        <main className="flex-1">
-          <Outlet />
-        </main>
+        <main className="flex-1">{children}</main>
       </div>
 
-      {/* <PreFooter /> */}
       <Footer />
     </div>
   )

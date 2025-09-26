@@ -1,43 +1,40 @@
-import HeroBanner from "../components/HeroBanner"
-import Products from "../components/Products"
+import React from 'react';
+import HeroBanner from "../components/HeroBanner";
+import FeaturedCategories from "../components/FeaturedCategories";
+import HotDeals from "../components/HotDeals";
+import FeaturedProducts from "../components/FeaturedProducts";
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
     <div>
-      <HeroBanner />
+      <main>
+        <HeroBanner />
+        <FeaturedCategories />
+        <HotDeals />
+        <FeaturedProducts />
+      </main>
 
-      {/* Featured Categories */}
-      <section className="py-16 bg-white">
+      {/* Features Section */}
+      <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {/* Wireless Speaker */}
-            <div className="bg-gray-50 rounded-lg p-8 flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">WIRELESS SPEAKER</h3>
-                <p className="text-gray-600 mb-4">UP TO 70% OFF</p>
-                <button className="bg-yellow-400 text-black px-6 py-2 rounded font-medium hover:bg-yellow-500 transition-colors">
-                  BUY NOW
-                </button>
-              </div>
-              <img src="/wireless-bluetooth-speaker.jpg" alt="Wireless Speaker" className="w-24 h-24 object-cover" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-4">
+              <h4 className="font-bold text-gray-900 mb-2">FREE SHIPPING</h4>
+              <p className="text-sm text-gray-600">On all orders over $100</p>
             </div>
-
-            {/* Watch Charger */}
-            <div className="bg-gray-50 rounded-lg p-8 flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-2">WATCH CHARGER</h3>
-                <p className="text-gray-600 mb-4">UP TO 70% OFF</p>
-                <button className="bg-yellow-400 text-black px-6 py-2 rounded font-medium hover:bg-yellow-500 transition-colors">
-                  BUY NOW
-                </button>
-              </div>
-              <img src="/apple-watch-charging-dock.jpg" alt="Watch Charger" className="w-24 h-24 object-cover" />
+            <div className="text-center p-4">
+              <h4 className="font-bold text-gray-900 mb-2">SECURE PAYMENT</h4>
+              <p className="text-sm text-gray-600">100% secure payment</p>
+            </div>
+            <div className="text-center p-4">
+              <h4 className="font-bold text-gray-900 mb-2">24/7 SUPPORT</h4>
+              <p className="text-sm text-gray-600">Dedicated support</p>
             </div>
           </div>
         </div>
       </section>
-
-      <Products />
     </div>
-  )
-}
+  );
+};
+
+export default Home;

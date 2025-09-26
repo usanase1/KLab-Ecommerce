@@ -1,117 +1,13 @@
-"use client"
-
-import { useState } from "react"
 import ProductCard from "../components/ProductCard"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { useCart } from "../context/CartContext"
+import { Product } from "../types/product.types"
 
-type Product = {
-  id: number
-  name: string
-  price: number
-  originalPrice?: number
-  image: string
-  category: string
-  discount?: string
-  badge?: string
-  isOnSale?: boolean
-  rating?: number
-}
 
 const products: Product[] = [
-  {
-    id: 1,
-    name: "Apple Watch Series 5",
-    price: 499,
-    originalPrice: 599,
-    image: "/apple-watch-series-5.jpg",
-    category: "ELECTRONICS",
-    discount: "17% OFF",
-    rating: 4.8,
-  },
-  {
-    id: 2,
-    name: "Microsoft Xbox One Wireless Controller",
-    price: 25,
-    originalPrice: 45,
-    image: "/microsoft-xbox-controller.jpg",
-    category: "ELECTRONICS",
-    discount: "44% OFF",
-    rating: 4.6,
-  },
-  {
-    id: 3,
-    name: "JBL On-Ear Headphones",
-    price: 124,
-    image: "/jbl-white-headphones.jpg",
-    category: "ELECTRONICS",
-    badge: "FEATURED",
-    rating: 4.5,
-  },
-  {
-    id: 4,
-    name: "Samsung Virtual Reality Headset",
-    price: 18,
-    image: "/samsung-vr-headset.jpg",
-    category: "ELECTRONICS",
-    rating: 4.2,
-  },
-  {
-    id: 5,
-    name: "Apple Watch Series 5 Black Milanese",
-    price: 599,
-    image: "/apple-watch-black-milanese.jpg",
-    category: "ELECTRONICS",
-    rating: 4.9,
-  },
-  {
-    id: 6,
-    name: "Samsung Gear 360 Camera",
-    price: 29,
-    originalPrice: 48,
-    image: "/samsung-gear-360-camera.jpg",
-    category: "ELECTRONICS",
-    discount: "40% OFF",
-    rating: 4.3,
-  },
-  {
-    id: 7,
-    name: "Apple iPhone 11 Pro Max 256GB",
-    price: 199,
-    originalPrice: 254,
-    image: "/iphone-11-pro-max-gold.jpg",
-    category: "ELECTRONICS",
-    discount: "22% OFF",
-    rating: 4.7,
-  },
-  {
-    id: 8,
-    name: "JBL Wireless Bluetooth Speaker",
-    price: 96,
-    image: "/jbl-bluetooth-speaker-blue.jpg",
-    category: "ELECTRONICS",
-    badge: "FEATURED",
-    rating: 4.4,
-  },
-  {
-    id: 9,
-    name: "Apple AirPods with Wireless Charging Case",
-    price: 85,
-    image: "/apple-airpods-white.jpg",
-    category: "ELECTRONICS",
-    badge: "FEATURED",
-    rating: 4.6,
-  },
-  {
-    id: 10,
-    name: "Samsung Galaxy S20 8GB RAM",
-    price: 250,
-    image: "/samsung-galaxy-s20.jpg",
-    category: "ELECTRONICS",
-    rating: 4.5,
-  },
+ 
 ]
 
-const hotDealProduct = {
+const hotDealProduct: Product = {
   id: 11,
   name: "Apple Watch Series 5",
   price: 499,
@@ -122,21 +18,21 @@ const hotDealProduct = {
   soldCount: 50,
   availableCount: 75,
   rating: 4.8,
+  isOnSale: true
 }
 
 export default function Products() {
-  const [, setCart] = useState<Product[]>([])
-
-  const addToCart = (product: Product) => {
-    setCart((prevCart) => [...prevCart, product])
-    console.log("Added to cart:", product)
-  }
+  const { addToCart, getCartCount } = useCart()
 
   const bestSellingProducts = products.slice(0, 6)
   const featuredProducts = products.slice(6, 10)
 
   return (
     <div className="bg-gray-50 py-12">
+      <div className="max-w-7xl mx-auto px-4 mb-4">
+        <div className="text-right text-sm text-gray-600">Cart: {getCartCount()} items</div>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 mb-16">
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -150,17 +46,25 @@ export default function Products() {
 
         <div className="relative">
           <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50">
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
           </button>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mx-12">
-            {bestSellingProducts.map((product) => (
-              <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
+            {bestSellingProducts.map((product: Product) => (
+              <ProductCard 
+                key={product.id} 
+                product={product} 
+                onAddToCart={(p: Product) => addToCart({...p, quantity: 1})} 
+              />
             ))}
           </div>
 
           <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50">
-            <ChevronRight className="w-5 h-5 text-gray-600" />
+            <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </button>
         </div>
       </div>
@@ -202,20 +106,29 @@ export default function Products() {
                 <span className="text-gray-500 line-through">${hotDealProduct.originalPrice}.00</span>
               </div>
 
-              <div className="mb-4">
-                <div className="flex justify-between text-sm text-gray-600 mb-2">
-                  <span>Already Sold: {hotDealProduct.soldCount}</span>
-                  <span>Available: {hotDealProduct.availableCount}</span>
+              {hotDealProduct.soldCount !== undefined && hotDealProduct.availableCount !== undefined && (
+                <div className="mb-4">
+                  <div className="flex justify-between text-sm text-gray-600 mb-2">
+                    <span>Already Sold: {hotDealProduct.soldCount}</span>
+                    <span>Available: {hotDealProduct.availableCount}</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-yellow-400 h-2 rounded-full"
+                      style={{
+                        width: `${(hotDealProduct.soldCount / (hotDealProduct.soldCount + hotDealProduct.availableCount)) * 100}%`,
+                      }}
+                    ></div>
+                  </div>
                 </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className="bg-yellow-400 h-2 rounded-full"
-                    style={{
-                      width: `${(hotDealProduct.soldCount / (hotDealProduct.soldCount + hotDealProduct.availableCount)) * 100}%`,
-                    }}
-                  ></div>
-                </div>
-              </div>
+              )}
+
+              <button
+                onClick={() => addToCart({...hotDealProduct, quantity: 1})}
+                className="w-full bg-yellow-400 text-black py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors"
+              >
+                BUY NOW
+              </button>
             </div>
           </div>
 
@@ -233,17 +146,25 @@ export default function Products() {
 
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50">
-                <ChevronLeft className="w-5 h-5 text-gray-600" />
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
               </button>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mx-12">
-                {featuredProducts.map((product) => (
-                  <ProductCard key={product.id} product={product} onAddToCart={addToCart} />
+                {featuredProducts.map((product: Product) => (
+                  <ProductCard 
+                    key={product.id} 
+                    product={product} 
+                    onAddToCart={(p: Product) => addToCart({...p, quantity: 1})} 
+                  />
                 ))}
               </div>
 
               <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white shadow-lg rounded-full p-2 hover:bg-gray-50">
-                <ChevronRight className="w-5 h-5 text-gray-600" />
+                <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           </div>
@@ -276,7 +197,7 @@ export default function Products() {
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth={2}
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  d="M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"
                 />
               </svg>
             </div>
