@@ -2,9 +2,14 @@ import { useCart } from '../context/CartContext';
 import ProductCard from './ProductCard';
 import { Product } from '../types/product.types';
 import { useEffect, useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { Notify } from 'notiflix';
 
 const FeaturedProducts = () => {
   const { addToCart } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -31,9 +36,22 @@ const FeaturedProducts = () => {
     };
   }, []);
 
+  const ensureLoggedIn = (action: () => void) => {
+    if (!user) {
+      Notify.warning('Please log in to add items to your cart');
+      navigate('/login');
+      return;
+    }
+    action();
+  };
+
   const handleAddToCart = (product: Product) => {
-    addToCart({ ...product, quantity: 1 });
-    // Optional: Show a toast notification here
+    const numericRating =
+      typeof (product as any).rating === 'number'
+        ? (product as any).rating
+        : (product as any).rating?.rate ?? undefined;
+    const cartItem = { ...product, rating: numericRating, quantity: 1 } as any;
+    ensureLoggedIn(() => addToCart(cartItem));
   };
 
   return (

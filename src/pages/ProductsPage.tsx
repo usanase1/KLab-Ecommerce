@@ -1,5 +1,8 @@
 // src/pages/Products.tsx
 import ProductCard from "../components/ProductCard"
+import { useAuth } from "../context/AuthContext"
+import { useNavigate } from "react-router-dom"
+import { Notify } from "notiflix"
 
 type Product = {
   id: number
@@ -96,6 +99,18 @@ const products: Product[] = [
 ]
 
 export default function ProductsPage() {
+  const { user } = useAuth()
+  const navigate = useNavigate()
+
+  const ensureLoggedIn = (action: () => void) => {
+    if (!user) {
+      Notify.warning('Please log in to add items to your cart')
+      navigate('/login')
+      return
+    }
+    action()
+  }
+
   return (
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-6">Our Products</h1>
@@ -105,9 +120,11 @@ export default function ProductsPage() {
           <ProductCard
             key={product.id}
             product={product}
-            onAddToCart={(product: Product): void => {
-              console.log("Added to cart:", product)
-              // TODO: Implement actual cart functionality
+            onAddToCart={(p: Product): void => {
+              ensureLoggedIn(() => {
+                // Replace with real addToCart from context if this page is wired later
+                console.log("Added to cart:", p)
+              })
             }}
           />
         ))}

@@ -1,6 +1,9 @@
 import ProductCard from "../components/ProductCard"
 import { useCart } from "../context/CartContext"
 import { Product } from "../types/product.types"
+import { useAuth } from "../context/AuthContext"
+import { useNavigate } from "react-router-dom"
+import { Notify } from "notiflix"
 
 
 const products: Product[] = [
@@ -23,9 +26,25 @@ const hotDealProduct: Product = {
 
 export default function Products() {
   const { addToCart, getCartCount } = useCart()
+  const { user } = useAuth()
+  const navigate = useNavigate()
 
   const bestSellingProducts = products.slice(0, 6)
   const featuredProducts = products.slice(6, 10)
+
+  const ensureLoggedIn = (action: () => void) => {
+    if (!user) {
+      Notify.warning('Please log in to add items to your cart')
+      navigate('/login')
+      return
+    }
+    action()
+  }
+
+  const toCartItem = (p: Product) => {
+    const numericRating = typeof (p as any).rating === 'number' ? (p as any).rating : (p as any).rating?.rate ?? undefined
+    return { ...p, rating: numericRating, quantity: 1 } as any
+  }
 
   return (
     <div className="bg-gray-50 py-12">
@@ -56,7 +75,7 @@ export default function Products() {
               <ProductCard 
                 key={product.id} 
                 product={product} 
-                onAddToCart={(p: Product) => addToCart({...p, quantity: 1})} 
+                onAddToCart={(p: Product) => ensureLoggedIn(() => addToCart(toCartItem(p)))} 
               />
             ))}
           </div>
@@ -124,7 +143,7 @@ export default function Products() {
               )}
 
               <button
-                onClick={() => addToCart({...hotDealProduct, quantity: 1})}
+                onClick={() => ensureLoggedIn(() => addToCart(toCartItem(hotDealProduct)))}
                 className="w-full bg-yellow-400 text-black py-2 px-4 rounded font-medium hover:bg-yellow-500 transition-colors"
               >
                 BUY NOW
@@ -156,7 +175,7 @@ export default function Products() {
                   <ProductCard 
                     key={product.id} 
                     product={product} 
-                    onAddToCart={(p: Product) => addToCart({...p, quantity: 1})} 
+                    onAddToCart={(p: Product) => ensureLoggedIn(() => addToCart(toCartItem(p)))} 
                   />
                 ))}
               </div>

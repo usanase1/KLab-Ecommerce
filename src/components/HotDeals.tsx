@@ -2,6 +2,9 @@ import { Clock, ShoppingCart, Star } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 import Notification from './Notification';
+import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { Notify } from 'notiflix';
 
 interface DealType {
   id: number;
@@ -87,6 +90,8 @@ const HotDeals = () => {
     removeFromWishlist, 
     isInWishlist
   } = useCart();
+  const { user } = useAuth();
+  const navigate = useNavigate();
   
   const [wishlistStatus, setWishlistStatus] = useState<{[key: number]: boolean}>({});
   const [notification, setNotification] = useState<NotificationState>({
@@ -145,6 +150,11 @@ const HotDeals = () => {
 
   const handleAddToCart = (e: React.MouseEvent, deal: DealType) => {
     e.stopPropagation();
+    if (!user) {
+      Notify.warning('Please log in to add items to your cart');
+      navigate('/login');
+      return;
+    }
     const product = {
       id: deal.id,
       name: deal.title,
