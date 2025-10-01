@@ -37,12 +37,21 @@ export default function ProductCard({
     discount: product.discount,
     badge: product.badge,
     isOnSale: isOnSale || product.isOnSale,
-    rating: typeof productRating === 'number' ? productRating : productRating?.rate ?? 5,
+    rating: typeof productRating === 'number'
+      ? productRating
+      : (typeof productRating === 'object' && productRating !== null && 'rate' in productRating
+          ? (productRating as { rate: number }).rate
+          : 5),
     quantity: 1,
   };
 
   // Normalize rating for UI
-  const numericRating = typeof productRating === 'number' ? productRating : (productRating?.rate ?? 0);
+  const numericRating =
+    typeof productRating === 'number'
+      ? productRating
+      : (typeof productRating === 'object' && productRating !== null && 'rate' in productRating
+          ? (productRating as { rate: number }).rate
+          : 0);
   const ratingCount = typeof product.rating === 'object' ? product.rating.count : undefined;
 
   const handleWishlistClick = (e: React.MouseEvent) => {
